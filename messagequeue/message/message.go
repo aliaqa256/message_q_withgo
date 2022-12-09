@@ -6,15 +6,15 @@ import (
 )
 
 type Message struct {
-	sync.Mutex
+	sync.RWMutex
 	Id string
 	Content string
-	ExpirySeconds int
-	LivedSeconds int
+	ExpirySeconds int32
+	LivedSeconds int32
 }
 
 
-func NewMessage(content string, expirySeconds int) *Message {
+func NewMessage(content string, expirySeconds int32) *Message {
 	id := uuid.NewV4().String()
 	return &Message{Id: id, Content: content, ExpirySeconds: expirySeconds, LivedSeconds: 0}
 }

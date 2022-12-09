@@ -10,22 +10,24 @@ import (
 
 
 type MessageQueue struct {
-	sync.Mutex 
+	sync.RWMutex
 	Id string
 	Items []*msg.Message
-	RetentionSeconds int
+	RetentionSeconds int32
 }
 
 
 
-func NewMessageQueue(retentionSeconds int) *MessageQueue {
+func NewMessageQueue(retentionSeconds int32) *MessageQueue {
 	id := uuid.NewV4().String()
 	return &MessageQueue{Id:id,RetentionSeconds: retentionSeconds}
 }
 
 
 func (mq *MessageQueue) AddMessage(Message *msg.Message) {
+	mq.Lock()
 	mq.Items = append(mq.Items , Message)
+	mq.Unlock()
 }
 
 

@@ -22,14 +22,14 @@ func NewConsumer(mq *mq.MessageQueue) *Consumer {
 func (consumer *Consumer) Consume()  {
 	fmt.Println("consumer is consuming ...")
 	for {
+			consumer.MessageQueue.Lock()
 		for _, message := range consumer.MessageQueue.Items {
 			if !contains(consumer.ReadMessagesId, message.Id) {
-				message.Lock()
 				fmt.Println(message)
 				consumer.ReadMessagesId = append(consumer.ReadMessagesId, message.Id)				
-				message.Unlock()
 			}
 		}
+		consumer.MessageQueue.Unlock()
 		
 
 	}	

@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/signal"
 	mq "q/messagequeue"
+	"sync/atomic"
 	"syscall"
 	"time"
 )
@@ -37,22 +38,22 @@ func (server *Server) Run() {
 						
 
 						if message.LivedSeconds >= message.ExpirySeconds {
-							message.Lock()
+							message.RLock()
 							mq.RemoveMessageFromQueue(queue, message)
-							message.Unlock()
+							message.RUnlock()
+							atomic.AddInt32(&message.LivedSeconds, 1)
 							message.LivedSeconds += 1
 
 							continue
 						}
 						if message.LivedSeconds >= queue.RetentionSeconds {
-							message.Lock()
+							message.RLock()
 							mq.RemoveMessageFromQueue(queue, message)
-							message.Unlock()
+							message.RUnlock()
 
 						}
-						message.Lock()
+						atomic.AddInt32(&message.LivedSeconds, 1)
 						message.LivedSeconds += 1
-						message.Unlock()
 
 					}
 					queue.Unlock()
