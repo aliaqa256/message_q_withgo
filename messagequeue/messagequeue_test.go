@@ -26,6 +26,8 @@ func TestAddMessage(t *testing.T) {
 	assert.NotEqual(t, "", mq.Items[0].Id)
 }
 
+
+ 
 func TestRemoveMessageFromQueue(t *testing.T) {
 	mq := NewMessageQueue(10)
 	assert.Equal(t, 0, len(mq.Items))
@@ -38,3 +40,5 @@ func TestRemoveMessageFromQueue(t *testing.T) {
 	RemoveMessageFromQueue(mq, mq.Items[0])
 	assert.Equal(t, 0, len(mq.Items))
 }
+
+
