@@ -38,22 +38,16 @@ func (server *Server) Run() {
 						
 
 						if message.LivedSeconds >= message.ExpirySeconds {
-							message.RLock()
 							mq.RemoveMessageFromQueue(queue, message)
-							message.RUnlock()
 							atomic.AddInt32(&message.LivedSeconds, 1)
-							message.LivedSeconds += 1
 
 							continue
 						}
 						if message.LivedSeconds >= queue.RetentionSeconds {
-							message.RLock()
 							mq.RemoveMessageFromQueue(queue, message)
-							message.RUnlock()
 
 						}
 						atomic.AddInt32(&message.LivedSeconds, 1)
-						message.LivedSeconds += 1
 
 					}
 					queue.Unlock()

@@ -10,7 +10,7 @@ import (
 	msg "q/messagequeue/message"
 	s "q/messagequeue/server"
 	"syscall"
-	"time"
+	// "time"
 	// "time"
 )
 
@@ -34,16 +34,18 @@ func main() {
 
 	server := s.NewServer("main")
 	q1 := mq.NewMessageQueue(1)
+	q2 := mq.NewMessageQueue(2)
 	server.AddQueue(q1)
+	server.AddQueue(q2)
 	
 	consumer1 := c.NewConsumer(q1)
-	consumer2 := c.NewConsumer(q1)
+	consumer2 := c.NewConsumer(q2)
 
 	go consumer1.Consume()		
 	go consumer2.Consume()
 	go func() {
 		for {
-			time.Sleep(1 * time.Second)
+			// time.Sleep(1 * time.Second)
 			q1.AddMessage(msg.NewMessage( "1", 1))
 		}
 		}()
