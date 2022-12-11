@@ -1,0 +1,6 @@
+mode: set
+q/messagequeue/messagequeue.go:21.60,24.2 2 1
+q/messagequeue/messagequeue.go:27.58,31.2 3 1
+q/messagequeue/messagequeue.go:35.72,36.35 1 1
+q/messagequeue/messagequeue.go:36.35,37.28 1 1
+q/messagequeue/messagequeue.go:37.28,39.4 1 1

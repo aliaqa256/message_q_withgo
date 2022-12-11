@@ -36,8 +36,11 @@ func TestAddMassage(t *testing.T) {
 	msgq.AddMessage(m)
 	assert.Equal(t, 1, len(s.Queues[0].Items))
 	assert.Equal(t, "hello", s.Queues[0].Items[0].Content)
-	assert.Equal(t, 10, s.Queues[0].Items[0].ExpirySeconds)
-	assert.Equal(t, 0, s.Queues[0].Items[0].LivedSeconds)
+	assert.Equal(t, int32(10), s.Queues[0].Items[0].ExpirySeconds)
+	assert.Equal(t, int32(0), s.Queues[0].Items[0].LivedSeconds)
 	assert.NotEqual(t, "", s.Queues[0].Items[0].Id)
 }
 
+// go tool cover -html=cover.txt
+// go test ./messagequeue/server -coverprofile=cover.txt
+//  go test ./messagequeue/server -cover    
